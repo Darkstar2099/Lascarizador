@@ -55,7 +55,7 @@ parâmetros | tipo | descrição | valores_possíveis | obrigatório
 ---: | :--: | :--- | :--- | :---:
 transaction_type | *string* | Tipo de transação solicitada. | `credito`, `credito_parcelado` | :heavy_check_mark:
 
-### 2.3.Retornando uma transação
+### 3.Retornando uma transação
 
 Para retornar uma transação você deve realizar um GET usando a rota `/transactions/[transaction_id]`.
 Retorna os dados de uma transação em específico, com as informações em um único objeto.
