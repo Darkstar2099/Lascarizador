@@ -11,7 +11,7 @@ Esse produto foi patrocinado por:
 - **bootbox** v4.3.0 by Nick Payne
 - **bootstrap** v3.0.0 by Mark Otto and Jacob Thornton
   - **bootstrap-sandstone.css** by Thomas Park (bootstrap theme available in bootswatch.com/sandstone)
-- **Entity Framework** v6.2.0 by Microsfot
+- **Entity Framework** v6.2.0 by Microsoft
 - **jQuery** v1.10.2 by jQuery Foundatino
 - **jquery.datatables** v1.10.15 by Allan Jardine (www.spymedia.co.uk)
 - **Microsoft.aspNet.Mvc** v5.2.3 by Microsoft
@@ -68,7 +68,7 @@ Aqui pode-se ver todos os cartões cadastrados para o cliente selecionado na tel
 - A tela de edição de dados de um cartão pode ser acessada ao ser clicar o link do `Número` do cartão.
 - O botão `Novo Cartão` possibilita o acesso à tela de cadastro de novo cartão para o cliente em questão.
 - A opção `ver transações` possibilita o acesso á tela de Listagem de Cartões.
-- A opção `remover` apaga os dados do cliente, seus cartões, suas transações e o log de transações (CUIDADO)
+- A opção `remover` apaga os dados do cartão, suas transações e o log de transações (CUIDADO)
 
 ### 1.4.Novo Cartão ou Edição de Cartão
 ![Tela de Novo Cartão](/images/NovoCartao.jpg)
@@ -97,7 +97,7 @@ Os error aqui são tratados como informação para correções da entrada de dad
 ![Tela de Listagem de Requisições](/images/API_TransactionLog.jpg)
 Essa tela possibilita a visualização de todas as requisições de transação realizadas através da API.
 - A tela de Detalhe do Log de Requisição de Transação pode ser acessada ao ser clicar o link do `Req#` da requisição. Na tela de detalhe os erros encontrados durante a validação estarão visíveis.
-Essa tela simula uma solicitação de listagem de transações requisitas à API através de um `GEt` no endereço `http://localhost:55787/api/transactions`
+Essa tela simula uma solicitação de listagem de transações requisitas à API através de um `GET` no endereço `http://localhost:55787/api/transactions`
 
 ### 2.2.(API)Nova Transação
 ![Tela de Requisição de Transações](/images/API_NovaTransacao.jpg)
