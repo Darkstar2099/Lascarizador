@@ -93,7 +93,7 @@ Os erros aqui são tratados como informação para correções da entrada de dad
 ## 2.Telas que usam a API (Menu API)
 
 ### 2.1.Log de Requisições
-![Tela de Log de Requisições](/images/API_TransactionLog.jpg)
+![Tela de Log de Requisições](/images/LogRequisicoes.jpg)
 Essa tela possibilita a visualização de todas as requisições de transação realizadas através da API.
 - A tela de Detalhe do Log de Requisição de Transação pode ser acessada ao ser clicar o link do `Req#` da requisição. Na tela de detalhe os erros encontrados durante a validação estarão visíveis.
 Essa tela simula uma solicitação de listagem de transações requisitas à API através de um `GET` no endereço `http://localhost:55787/api/transactionslog`
