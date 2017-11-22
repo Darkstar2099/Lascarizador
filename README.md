@@ -104,8 +104,7 @@ Essa tela possibilita a entrada de dados necessários para se requisitar uma tra
 Diferente da Tela de **Transações** aqui nenhuma validação é realizada nos campos antes de enviá-los para a API.
 Essa tela simula uma solicitação de aprovação de transação financeira através de um `POST` no endereço `http://localhost:55787/api/transactions`
 
-Para mais informações em como __**consumir a API**__ acesse o documento [APIDocs]
-(https://github.com/Darkstar2099/Lascarizador/blob/master/APIDocs.md)
+Para mais informações em como __**consumir a API**__ acesse o documento [APIDocs](https://github.com/Darkstar2099/Lascarizador/blob/master/APIDocs.md)
 
 
 
