@@ -10,7 +10,7 @@ Esse produto foi patrocinado por:
 
 - **bootbox** v4.3.0 by Nick Payne
 - **bootstrap** v3.3.7 by Mark Otto and Jacob Thornton
-  - **bootstrap-sandstone.css** by Thomas Park (bootstrap theme available in bootswatch.com/sandstone) (pena que não funciona mais)
+  - **bootstrap-sandstone.css** theme by Thomas Park (bootstrap theme available in bootswatch.com/sandstone)
 - **Entity Framework** v6.2.0 by Microsoft
 - **jQuery** v3.2.1 by jQuery Foundation
 - **jquery.datatables** v1.10.15 by Allan Jardine (www.spymedia.co.uk)
@@ -20,6 +20,13 @@ Esse produto foi patrocinado por:
 ## Para rodar o projeto
 1. Copiar o projeto para uma pasta e abrí-lo no Visual Studio.
 2. Executar as migrações para criar os dados básicos e alguns usuários.
+- Como fazer isso???
+
+- Os seguintes dados serão criados para as tabelas abaixo listadas:
+  - CardBrand(Bandeiras de Cartão): bedrock visa, bedrock master e bedrock express.
+  - CardType(Tipos de Cartão): chip e tarja magnética.
+  - TransactionType(Tipos de Transação): crédito e crédito parcelado.
+  - Clients(Clientes): alguns clientes _conhecidos_ para podermos começar a usar o Lascarizador.
 
 ## Usando o aplicativo
 O aplicativos possue quatro(4) itens básicos de menu.
@@ -35,7 +42,7 @@ Na opção de **Clientes** pode-se:
  - Listar as Transações aprovadas de um Cartão selecionado e
  - Ver o Detalhe do Log de Requisição de Transação que originou a Transação selecionada.
 
-Pode-se ver que a navegação é bem amarrada aos itens selecionados possibilitando uma visão mais fechada e específica da base de dados.
+Pode-se ver que a navegação aqui é bem amarrada aos itens selecionados possibilitando uma visão mais fechada e específica da base de dados.
  
 Na opção de **Transações** somente transações que retornarem do processo de validação com status-code `aprovada` e status-reason `sucesso` serão criadas na base de dados e terão seu registro de requisição de transação criado no Log de Transações.
  
@@ -44,6 +51,7 @@ Todos os erros retornados pelo processo de validação são mostrados na tela de
 ### Menu API (Log Requisições e Nova Transação)
 Na opção **Log Requisições** uma listagem de todas as requisições realizadas através da API, aprovadas ou recusadas, será mostrada, bem como as requisições realizadas aprovadas realizadas na opção **Transações**.
 Os Detalhes do registro no Log de Transações também pode ser visualizado para a requisição selecionada. Nos detalhes pode-se ver a lista de erros gerados pelo processo de validação que foram os responsáveis pelo status-code `recusada`.
+Na opção **Nova Transação**, uma solicitação via API é simulada, com os campos informados não verificados antes do envio.
 
 ## 1.Telas Internas (MVC-Controllers)
 
