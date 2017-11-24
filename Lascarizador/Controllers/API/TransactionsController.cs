@@ -49,7 +49,7 @@ namespace Lascarizador.Controllers.API
                     {
                         card_brand = new CardBrandDto
                         {
-                            id = t.Card.CardBrandId,
+                            id = t.Card.CardBrand.Id,
                             name = cardBrand.ApiName
                         },
                         client = new ClientDto

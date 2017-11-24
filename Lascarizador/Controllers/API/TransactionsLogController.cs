@@ -47,12 +47,16 @@ namespace Lascarizador.Controllers.API
                     transaction_log_id = l.Id
                 };
 
-                //List<ErrorDto> _errorsDto = new List<ErrorDto>();
-                //foreach ( var e in l.Errors)
-                //{
-                //    var errorDto = new ErrorDto (e.error_code, e.error_message);
-                //    _errorsDto.Add(errorDto);
-                //}
+                var errorLog = _unitOfWork.ErrorLogs.GetAllErrorsFromTransactionLog(l.Id);
+
+                List<ErrorDto> _errorsDto = new List<ErrorDto>();
+                foreach ( var e in errorLog)
+                {
+                    var errorDto = new ErrorDto (e.Error_code, e.Error_message);
+                    _errorsDto.Add(errorDto);
+                }
+
+                transactionApiOutputDto.errors = _errorsDto;
 
                 _transactionsApiOutputDto.Add(transactionApiOutputDto);
 
@@ -88,12 +92,16 @@ namespace Lascarizador.Controllers.API
                 transaction_log_id = transactionLog.Id
             };
 
-            //List<ErrorDto> _errorsDto = new List<ErrorDto>();
-            //foreach ( var e in l.Errors)
-            //{
-            //    var errorDto = new ErrorDto (e.error_code, e.error_message);
-            //    _errorsDto.Add(errorDto);
-            //}
+            var errorLog = _unitOfWork.ErrorLogs.GetAllErrorsFromTransactionLog(transactionLog.Id);
+
+            List<ErrorDto> _errorsDto = new List<ErrorDto>();
+            foreach (var e in errorLog)
+            {
+                var errorDto = new ErrorDto(e.Error_code, e.Error_message);
+                _errorsDto.Add(errorDto);
+            }
+
+            transactionApiOutputDto.errors = _errorsDto;
 
             return Ok(transactionApiOutputDto);
         }
