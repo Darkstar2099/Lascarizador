@@ -7,8 +7,6 @@ Uma vez registrados os Hash e o Salt da password seriam muuuuiiitoooo difícil r
 
 - O tema Sandstone para Bootstrap parou de funcionar durante algum tempo. Caso aconteça novamente, favor entrar em contato para que possamos providenciar uma solução definitiva.
 
-- Meu projeto de Testes Unitários parou hoje(24/22/2017). Vou procurar alguma solução mas está ficando difícil de fechar o projeto de maneira aceitável.
-
 - Sim, eu deveria ter usado um recurso como o AutoMapper mas como eu não dominava bem este tipo de recurso, fiquei com medo de isso dar mais trabalho ainda. _Vou estudar agora com mais calma..._
 
 - Toda e qualquer crítica e sugestão ao projeto e a solução como um todo, é muito bem-vinda!!
