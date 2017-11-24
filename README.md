@@ -114,5 +114,5 @@ Essa tela simula uma solicitação de aprovação de transação financeira atra
 
 Para mais informações em como __**consumir a API**__ acesse o documento [APIDocs](https://github.com/Darkstar2099/Lascarizador/blob/master/APIDocs.md)
 
-
+Para mais algumas observações sobre o Projeto Lascarizador leia: [Observações](https://github.com/Darkstar2099/Lascarizador/blob/master/Observacoes.md).
 
