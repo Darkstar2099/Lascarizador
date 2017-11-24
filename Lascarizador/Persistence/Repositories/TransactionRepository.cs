@@ -87,7 +87,10 @@ namespace Lascarizador.Persistence.Repositories
         public Transaction GetTransactionWithAllRelations(int transactionId)
         {
             var transaction = LascarizadorDbContext.Transactions
-                .Single(t => t.Id == transactionId);
+                .SingleOrDefault(t => t.Id == transactionId);
+
+            if (transaction == null)
+                return (transaction);
 
             var transactionType = LascarizadorDbContext.TransactionTypes.Find(transaction.TransactionTypeId);
             transaction.TransactionType = new TransactionType
@@ -136,7 +139,6 @@ namespace Lascarizador.Persistence.Repositories
             return (transaction);
         }
 
-
         public IEnumerable<Transaction> GetTransactionsFromCardWithCardAndTransactionType(int cardId)
         {
             return LascarizadorDbContext.Transactions
@@ -145,6 +147,17 @@ namespace Lascarizador.Persistence.Repositories
                 .Include(t => t.TransactionType)
                 .OrderByDescending(t => t.CreationTimestamp)
                 .ToList();
+        }
+
+        public int GetTransactionFromTransactionLog (int transactionLogId)
+        {
+            var transaction = LascarizadorDbContext.Transactions
+                .SingleOrDefault(t => t.TransactionLogId == transactionLogId);
+
+            if (transaction == null)
+                return 0;
+
+            return (transaction.Id);
         }
 
         public LascarizadorDbContext LascarizadorDbContext

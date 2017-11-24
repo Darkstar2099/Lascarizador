@@ -21,7 +21,7 @@ namespace Lascarizador.Controllers.API
 
         // GET /api/transactionslog
         [HttpGet]
-        public IEnumerable<TransactionApiOutputDto> GetTransactionsLog()
+        public IHttpActionResult GetTransactionsLog()
         {
             var transactionLog = _unitOfWork.TransactionLogs.GetAllOrderByCreationTsDesc();
 
@@ -29,6 +29,8 @@ namespace Lascarizador.Controllers.API
 
             foreach (var l in transactionLog)
             {
+                var transactionId = _unitOfWork.Transactions.GetTransactionFromTransactionLog(l.Id);
+
                 var transactionApiOutputDto = new TransactionApiOutputDto
                 {
                     amount = l.Amount,
@@ -40,8 +42,9 @@ namespace Lascarizador.Controllers.API
                     installments = l.Installments,
                     status_code = l.Status_code,
                     status_reason = l.Status_reason,
-                    transaction_id = l.Id,
+                    transaction_id = transactionId,
                     transaction_type = l.Transaction_type,
+                    transaction_log_id = l.Id
                 };
 
                 //List<ErrorDto> _errorsDto = new List<ErrorDto>();
@@ -55,47 +58,44 @@ namespace Lascarizador.Controllers.API
 
             }
 
-            return (_transactionsApiOutputDto);
+            return Ok(_transactionsApiOutputDto);
         }
 
         // GET /api/transactionslog/{transactionLogId}
         [HttpGet]
-        public IEnumerable<TransactionApiOutputDto> GetTransactionsLog(int transactionLogId)
+        public IHttpActionResult GetTransactionLog(int id)
         {
-            var transactionLog = _unitOfWork.TransactionLogs.Find(t => t.Id == transactionLogId);
+            var transactionLog = _unitOfWork.TransactionLogs.SingleOrDefault(c => c.Id == id);
 
-            List<TransactionApiOutputDto> _transactionsApiOutputDto = new List<TransactionApiOutputDto>();
+            if (transactionLog == null)
+                return NotFound();
 
-            foreach (var l in transactionLog)
+            var transactionId = _unitOfWork.Transactions.GetTransactionFromTransactionLog(id);
+
+            var transactionApiOutputDto = new TransactionApiOutputDto
             {
-                var transactionApiOutputDto = new TransactionApiOutputDto
-                {
-                    amount = l.Amount,
-                    card_brand = l.Card_brand,
-                    card_holder_name = l.Card_holder_name,
-                    card_number_first = l.Card_number_first,
-                    card_number_last = l.Card_number_last,
-                    creation_timestamp = l.Creation_timestamp,
-                    installments = l.Installments,
-                    status_code = l.Status_code,
-                    status_reason = l.Status_reason,
-                    transaction_id = l.Id,
-                    transaction_type = l.Transaction_type,
-                };
+                amount = transactionLog.Amount,
+                card_brand = transactionLog.Card_brand,
+                card_holder_name = transactionLog.Card_holder_name,
+                card_number_first = transactionLog.Card_number_first,
+                card_number_last = transactionLog.Card_number_last,
+                creation_timestamp = transactionLog.Creation_timestamp,
+                installments = transactionLog.Installments,
+                status_code = transactionLog.Status_code,
+                status_reason = transactionLog.Status_reason,
+                transaction_id = transactionId,
+                transaction_type = transactionLog.Transaction_type,
+                transaction_log_id = transactionLog.Id
+            };
 
-                //List<ErrorDto> _errorsDto = new List<ErrorDto>();
-                //foreach ( var e in l.Errors)
-                //{
-                //    var errorDto = new ErrorDto (e.error_code, e.error_message);
-                //    _errorsDto.Add(errorDto);
-                //}
+            //List<ErrorDto> _errorsDto = new List<ErrorDto>();
+            //foreach ( var e in l.Errors)
+            //{
+            //    var errorDto = new ErrorDto (e.error_code, e.error_message);
+            //    _errorsDto.Add(errorDto);
+            //}
 
-                _transactionsApiOutputDto.Add(transactionApiOutputDto);
-
-            }
-
-            return (_transactionsApiOutputDto);
+            return Ok(transactionApiOutputDto);
         }
-
     }
 }

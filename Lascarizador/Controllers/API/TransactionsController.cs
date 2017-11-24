@@ -35,8 +35,8 @@ namespace Lascarizador.Controllers.API
             //Para cada transação encontrada no banco de dados...
             foreach (var t in transaction)
             {
-                var cardBrand = _unitOfWork.CardBrands.Get(t.Card.CardBrandId);
-                var transactionType = _unitOfWork.TransactionTypes.Get(t.TransactionTypeId);
+                var cardBrand = _unitOfWork.CardBrands.Get(t.Card.CardBrand.Id);
+                var transactionType = _unitOfWork.TransactionTypes.Get(t.TransactionType.Id);
                 var firstDigits = t.Card.Number.Substring(1, 4);
                 var lastDigits = t.Card.Number.Substring(t.Card.Number.Length - 4, 4);
 
@@ -72,7 +72,10 @@ namespace Lascarizador.Controllers.API
                         id = t.TransactionTypeId,
                         type = t.TransactionType.ApiName
                     }
-            };
+                };
+
+                //Adiciona transação à Lista de Transações
+                _transactionDto.Add(transactionDto);
 
             }
             //Retorna o IEnumerable<TransactionDto> preenchido com os dados da transação (Status=200)
@@ -89,8 +92,8 @@ namespace Lascarizador.Controllers.API
             if (transaction == null)
                 return NotFound();
 
-            var cardBrand = _unitOfWork.CardBrands.Get(transaction.Card.CardBrandId);
-            var transactionType = _unitOfWork.TransactionTypes.Get(transaction.TransactionTypeId);
+            var cardBrand = _unitOfWork.CardBrands.Get(transaction.Card.CardBrand.Id);
+            var transactionType = _unitOfWork.TransactionTypes.Get(transaction.TransactionType.Id);
             var firstDigits = transaction.Card.Number.Substring(1, 4);
             var lastDigits = transaction.Card.Number.Substring(transaction.Card.Number.Length - 4, 4);
 

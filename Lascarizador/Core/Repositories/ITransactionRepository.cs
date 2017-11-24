@@ -14,6 +14,7 @@ namespace Lascarizador.Core.Repositories
         Transaction GetTransactionWithAllRelations(int transactionId);
         IEnumerable<Transaction> GetTransactionsFromCard(int cardId);
         IEnumerable<Transaction> GetTransactionsFromCardWithCardAndTransactionType(int cardId);
+        int GetTransactionFromTransactionLog(int transactionLogId);
 
 
     }
