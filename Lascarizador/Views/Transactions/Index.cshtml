@@ -8,6 +8,7 @@
 <table id="transactions" class="table table-bordered table-hover">
     <thead>
         <tr>
+            <th>Id#</th>
             <th>Data/Hora</th>
             <th>Tipo de Transação</th>
             <th>Valor</th>
@@ -19,6 +20,7 @@
         @foreach (var transaction in Model.Transactions)
     {
             <tr>
+                <td><b>@transaction.Id</b></td>
                 <td>@transaction.CreationTimestamp</td>
                 <td>@transaction.TransactionType.Type</td>
                 <td>@String.Format("{0:c}", transaction.Amount)</td>
@@ -36,7 +38,7 @@
         $(document).ready(function () {
             var table = $("#transactions").DataTable({
                 fixedColumns: true,
-                "order": [[0, "desc"]],
+                "order": [[1, "desc"]],
                 "oLanguage": {
                     "sProcessing": "Aguarde enquanto os dados são carregados ...",
                     "sLengthMenu": "Mostrar _MENU_ registros por pagina",

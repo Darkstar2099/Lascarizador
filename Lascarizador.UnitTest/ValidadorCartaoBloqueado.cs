@@ -53,11 +53,21 @@ namespace Lascarizador.UnitTest
                 SaltPassword = securedPassword.Salt
             };
 
-            //Act
-            _unitOfWork.Cards.Add(card);
-            // Guarda o identificador do cartão;
-            _unitOfWork.Complete();
-            cardId = card.Id;
+            //Os testes estão encontrando o mesmo cartão na base de dados.
+            //Solução provisória: usar o cartão se ele já estiver lá
+            var cardAlreadyThere = _unitOfWork.Cards.SingleOrDefault(c => c.CardBrandId == 1 && c.Number == "1111222233334444");
+            if (cardAlreadyThere == null)
+            {
+                _unitOfWork.Cards.Add(card);
+                // Guarda o identificador do cartão;
+                _unitOfWork.Complete();
+                cardId = card.Id;
+            }
+            else
+            {
+                cardId = cardAlreadyThere.Id;
+            }
+
 
             // Cria um input padrão sem problemas para uso futuro
             inputTransaction = new TransactionApiInputDto

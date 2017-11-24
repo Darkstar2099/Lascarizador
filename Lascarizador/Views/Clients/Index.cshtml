@@ -13,6 +13,7 @@
             <th>CPF</th>
             <th>Limite de Crédito</th>
             <th>E-Mail</th>
+            <th>Saldo Atual</th>
             <th></th>
             <th></th>
         </tr>
@@ -24,6 +25,7 @@
                 <td>@client.CPF</td>
                 <td>@String.Format("{0:c}", client.CreditLimit)</td>
                 <td>@client.Email</td>
+                <td>@String.Format("{0:c}", client.Saldo)</td>
                 <td>@Html.ActionLink("ver cartões", "Index", "Cards", new { clientId = client.Id }, null)</td>
                 <td>
                     @* @Html.ActionLink("remover", "Delete", "Clients", new { clientId = client.Id }, null) *@

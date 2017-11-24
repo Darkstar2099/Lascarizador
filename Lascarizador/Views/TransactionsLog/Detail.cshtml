@@ -5,10 +5,6 @@
 @{
     var statusCodeClass = "";
     var statusReasonClass = "";
-    <!-- btn btn-primary btn-xs
-    if (Model.TransactionLog.Status_code == "aprovada") { statusCodeClass = "text-success"; } else { statusCodeClass = "text-danger"; };
-    if (Model.TransactionLog.Status_reason == "sucesso") { statusReasonClass = "text-success"; } else { statusReasonClass = "text-danger"; };
-    -->
     if (Model.TransactionLog.Status_code == "aprovada") { statusCodeClass = "label label-success"; } else { statusCodeClass = "label label-danger"; };
     if (Model.TransactionLog.Status_reason == "sucesso") { statusReasonClass = "label label-success"; } else { statusReasonClass = "label label-danger"; };
 }

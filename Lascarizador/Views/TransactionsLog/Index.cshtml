@@ -15,6 +15,7 @@
             <!--            <th>Nome do Portador</th> -->
             <th>Valor</th>
             <!--            <th>Parcelas</th> -->
+            <th>Transação</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -53,7 +54,7 @@
                 columns:
                 [
                     {
-                        data: "transaction_id",
+                        data: "transaction_log_id",
                         render: function (data, type, id) {
                             return "<a href='/TransactionsLog/Detail?transactionLogId=" + data + "'>" + data + "</a>";
                         }
@@ -66,8 +67,18 @@
                     { data: "card_number_first" },
                     { data: "card_number_last" },
 @*                    { data: "card_holder_name" }, *@
-                    { data: "amount" }
+                    { data: "amount" },
 @*                    { data: "installments" }  *@
+                    {
+                        data: "transaction_id",
+                        render: function (data, type, id) {
+                            if (data == 0)
+                                return "";
+                            else
+                                return data;
+                        }
+                    
+                    }
                 ]
             }
             );

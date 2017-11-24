@@ -117,6 +117,31 @@ namespace Lascarizador.Core
                 }
             }
 
+            // Se nenhum erro foi encontrado continua a validação 
+            if (errors.Count == 0)
+            {
+                // Validação do valor das parcelas
+                if (transactionType.InstallmentsAvailable == true)
+                {
+                    // Parcelas fora do intervalo de [1,12]
+                    if (inputTransaction.installments < 1 || inputTransaction.installments > 12)
+                    {
+                        statusReason = Constantes.srCampoInvalido;
+                        errors.Add(new Error(408, "O campo número de parcelas deve ser um número entre 1 e 12."));
+                    }
+                }
+                else
+                {
+                    // Parcela diferente de 0 para Transações que não são parceladas
+                    if (inputTransaction.installments != 0)
+                    {
+                        statusReason = Constantes.srCampoInvalido;
+                        errors.Add(new Error(409, "O campo número de parcelas deve ser 0 para transações que não podem ser parceladas."));
+                    }
+                }
+            }
+
+            // ***ATENÇÃO *** O Erro 410 - O valor informado não é válido., está sendo usando na classe TransactionController
 
             //___/ Validando parâmetros do cartão - Erros 500 \____________________
 

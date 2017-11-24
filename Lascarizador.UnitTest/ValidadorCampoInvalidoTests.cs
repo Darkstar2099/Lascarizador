@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lascarizador;
 using Lascarizador.Core;
 using Lascarizador.Persistence;
 using Lascarizador.Core.Models;
@@ -54,11 +53,21 @@ namespace Lascarizador.UnitTest
                 SaltPassword = securedPassword.Salt
             };
 
-            //Act
-            _unitOfWork.Cards.Add(card);
-            // Guarda o identificador do cartão;
-            _unitOfWork.Complete();
-            cardId = card.Id;
+            //Os testes estão encontrando o mesmo cartão na base de dados.
+            //Solução provisória: usar o cartão se ele já estiver lá
+            var cardAlreadyThere = _unitOfWork.Cards.SingleOrDefault(c => c.CardBrandId == 1 && c.Number == "1111222233334444");
+            if (cardAlreadyThere == null)
+            {
+                _unitOfWork.Cards.Add(card);
+                // Guarda o identificador do cartão;
+                _unitOfWork.Complete();
+                cardId = card.Id;
+            }
+            else
+            {
+                cardId = cardAlreadyThere.Id;
+            }
+
 
             // Cria um input padrão sem problemas para uso futuro
             inputTransaction = new TransactionApiInputDto
@@ -237,6 +246,69 @@ namespace Lascarizador.UnitTest
             Assert.IsTrue(errors.Count > 0);
             Assert.IsTrue(errors[0].error_code == 406);
         }
+
+        [TestMethod]
+        public void ProcessTransaction_ParcelasMenorQue1_RetornaStatusReasonCampoInvalido()
+        {
+            //Arrange
+            // Muda tipo de transação para uma parcelada e o número de parcelas para um número menor que 1.
+            inputTransaction.transaction_type = "credito_parcelado";
+            inputTransaction.installments = 0;
+
+            //Act
+            validador.ProcessTransaction(inputTransaction);
+            var statusCode = validador.statusCode;
+            var statusReason = validador.statusReason;
+            var errors = validador.errors;
+
+            //Assert
+            Assert.AreSame(statusCode, Constantes.scRecusada);
+            Assert.AreSame(statusReason, Constantes.srCampoInvalido);
+            Assert.IsTrue(errors.Count > 0);
+            Assert.IsTrue(errors[0].error_code == 408);
+        }
+
+        [TestMethod]
+        public void ProcessTransaction_ParcelasMaiorQue12_RetornaStatusReasonCampoInvalido()
+        {
+            //Arrange
+            // Muda tipo de transação para uma parcelada e o número de parcelas para um número maior que 12.
+            inputTransaction.transaction_type = "credito_parcelado";
+            inputTransaction.installments = 13;
+
+            //Act
+            validador.ProcessTransaction(inputTransaction);
+            var statusCode = validador.statusCode;
+            var statusReason = validador.statusReason;
+            var errors = validador.errors;
+
+            //Assert
+            Assert.AreSame(statusCode, Constantes.scRecusada);
+            Assert.AreSame(statusReason, Constantes.srCampoInvalido);
+            Assert.IsTrue(errors.Count > 0);
+            Assert.IsTrue(errors[0].error_code == 408);
+        }
+
+        [TestMethod]
+        public void ProcessTransaction_ParcelasDiferenteDe0ParaTipoTransNaoParcelado_RetornaStatusReasonCampoInvalido()
+        {
+            //Arrange
+            // Usa o tipo de transação credito(pois não é parcelado) e muda o número de parcelas para um número diferente de 0.
+            inputTransaction.installments = 1;
+
+            //Act
+            validador.ProcessTransaction(inputTransaction);
+            var statusCode = validador.statusCode;
+            var statusReason = validador.statusReason;
+            var errors = validador.errors;
+
+            //Assert
+            Assert.AreSame(statusCode, Constantes.scRecusada);
+            Assert.AreSame(statusReason, Constantes.srCampoInvalido);
+            Assert.IsTrue(errors.Count > 0);
+            Assert.IsTrue(errors[0].error_code == 409);
+        }
+
 
         [TestCleanup]
         public void Cleanup()
