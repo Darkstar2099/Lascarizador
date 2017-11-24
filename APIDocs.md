@@ -23,8 +23,9 @@ cvv | *string* | cvv do cartão informado. | numéricos de 3 de comprimento | :h
 amount | *int* | Valor (em centavos) da transação solicitada. | numéricos maiores ou igual a 10 (mínimo de 10 centavos) |  :heavy_check_mark:
 installments | *int* | Quantidade de parcelas da transação. | numéricos de 1 até 12 (somente obrigatórios para transaction_type = `credito_parcelado` | 
 password | *string* | Senha do cartão informado. | numéricos de 4 até 6 de comprimento (somente obrigatório se o cartão informado exigir senha) |
+show_errors | *int* | Solicita descrição dos erros | numérico (0 ou 1) | `0` - não descreve erros, `1` - descreve erros
 
-#### Objeto Requisição de Transação
+#### a)Objeto Requisição de Transação
 Ao criar uma transação, este é o objeto que você recebe como resposta do processo de efetivação da transação, bem como o link para a transação criada.
 
 campo | tipo | descrição | valores_possíveis
@@ -39,19 +40,23 @@ amount | *int* | Valor da transação (em centavos) |
 installments | *int* | Quantidade de parcelas (somente válido para transações do tipo parcelado. Atualmente somente para transaction_type = `credito_parcelado` |
 creation_timestamp | *timestamp* | Data e hora da criação da transação |
 status_code | *string* | Código de status da transação | `paid`, `refused`
-status_reason | *string* | Razão do código de status |
+status_reason | *string* | Razão do código de status | `erro_inesperado`, `campo_requerido`, `campo_inválido`, `valor_inválido`, `cartão_inválido`, `senha_requerida`, `erro_tamanho_senha`, `senha_inválida`, `cartão_expirado`, `cartão_bloqueado`, `cliente_não_encontrado`, `saldo_insuficiente`, `sucesso`
 transaction_log_id | *int* | Número identificador da requisição da transação. | 
+**errors** | *objeto* | Contém cada erro encontrado durante a valiação |
+**errors**/error_code | *int* | Código do erro encontrado |
+**errors**/error_message | *string* | Descrição do erro |
+
 
 
 ### 2.Retornando transações
 
 Para retornar transações você deve realizar um GET usando a rota `/transactions`.
-Retorna um *array* contendo **Objetos Transação**, ordenadas a partir da transação realizada mais recentemente.
+Retorna um *array* contendo **b)Objetos Transação**, ordenadas a partir da transação realizada mais recentemente.
 O layout do objeto de transação pode ser encontrado logo abaixo.
 
 `GET` `http://localhost:55787/api/transactions`
 
-#### Objeto Transação
+#### b)Objeto Transação
 Ao solicitar transações, este é o objeto que você recebe como resposta.
 
 campo | tipo | descrição | valores_possíveis
@@ -61,9 +66,6 @@ amount | *int* | Valor da transação (em centavos) |
 **card**/**card_brand** | *objeto* | Dados sobre a Banderia do Cartão. |
 **card**/**card_brand**/id | *int* | Número identificador da Bandeira. |
 **card**/**card_brand**/name | *string* | Bandeira do Cartão. | `bedrock_visa`, `bedrock_master`, `bedrock_express`
-**card**/**card_type** | *objeto* | Dados sobre o Tipo do Cartão |
-**card**/**card_type**/id | *int* | Número identificador do Tipo do Cartão. |
-**card**/**card_type**/name | *string* | Nome do Tipo do Cartão. | `chip`, `tarja_magnética`
 **card**/**client** | *objeto* | Dados sobre o Cliente do Cartão |
 **card**/**client**/_cpf_ | *string* | CPF do Cliente do Cartão |
 **card**/**client**/_email_ | *string* | E-mail do Cliente do Cartão |
@@ -84,7 +86,7 @@ transaction_log_id | *int* | Número identificador da requisição da transaçã
 ### 3.Retornando uma transação
 
 Para retornar uma transação você deve realizar um GET usando a rota `/transactions/[transaction_id]`.
-Retorna os dados de uma transação em específico, com as informações em um único **Objeto Transação**.
+Retorna os dados de uma transação específica, com as informações em um único **b)Objeto Transação**.
 
 `GET` `http://localhost:55787/api/transactions/[transaction_id]`
 
@@ -93,3 +95,24 @@ Retorna os dados de uma transação em específico, com as informações em um �
 parâmetros | tipo | descrição | obrigatório
 ---: | :--: | :--- | :---:
 transaction_id | *string* | Número identificador da transação. | :heavy_check_mark:
+
+### 4.Retornando o Log de Requisições de Transações
+
+Para retornar o log de requisições de transações você deve realizar um GET usando a rota `/transactionslog`.
+Retorna um *array* contendo **a)Objeto Requisição de Transação**, ordenadas a partir da transação realizada mais recentemente.
+O layout do objeto pode ser encontrado logo acima.
+
+`GET` `http://localhost:55787/api/transactionslog`
+
+### 5.Retornando um registro do Log de Requisições de Transações
+
+Para retornar um registro do log de requisições de transação você deve realizar um GET usando a rota `/transactionslog/[transaction_id]`.
+Retorna os dados de um registro de requisição de transação específico, com as informações em um único **a)Objeto Requisição de Transação**.
+
+`GET` `http://localhost:55787/api/transactionslog/[transaction_log_id]`
+
+#### Layout da estrutura de dados de envio
+
+parâmetros | tipo | descrição | obrigatório
+---: | :--: | :--- | :---:
+transaction_log_id | *string* | Número identificador da requisição de transação. | :heavy_check_mark:

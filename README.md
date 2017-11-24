@@ -1,4 +1,4 @@
-# Lascarizador
+![Capa](/images/Lascarizador_Capa.jpg)
 
 Projeto para atender ao enunciado proposto pela Stone Pagamentos.
 Esse produto foi patrocinado por:
@@ -20,8 +20,6 @@ Esse produto foi patrocinado por:
 ## Para rodar o projeto
 1. Copiar o projeto para uma pasta e abrí-lo no Visual Studio.
 2. Executar as migrações para criar os dados básicos e alguns usuários.
-- Como fazer isso???
-
 - Os seguintes dados serão criados para as tabelas abaixo listadas:
   - **CardBrand**(Bandeiras de Cartão): bedrock visa, bedrock master e bedrock express.
   - **CardType**(Tipos de Cartão): chip e tarja magnética.
