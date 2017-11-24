@@ -51,11 +51,6 @@ O layout do objeto de transação pode ser encontrado logo abaixo.
 
 `GET` `http://localhost:55787/api/transactions`
 
-#### Layout da estrutura de dados de envio
-parâmetros | tipo | descrição | valores_possíveis | obrigatório
----: | :--: | :--- | :--- | :---:
-transaction_id | *int* | Número identificador da Transação solicitad. |  | :heavy_check_mark:
-
 #### Objeto Transação
 Ao solicitar transações, este é o objeto que você recebe como resposta.
 
