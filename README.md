@@ -107,7 +107,7 @@ Essa tela possibilita a visualização de todas as requisições de transação 
 Essa tela simula uma solicitação de listagem de transações requisitas à API através de um `GET` no endereço `http://localhost:55787/api/transactionslog`
 
 ### 2.2.Envia Transação
-![Tela de Envia Transação](/images/API_NovaTransacao.jpg)
+![Tela de Envia Transação](/images/EnviaTransacao.jpg)
 Essa tela possibilita a entrada de dados necessários para se requisitar uma transação financeira junto ao validador.
 Diferente da Tela de **Nova Transação** aqui nenhuma validação é realizada nos campos antes de enviá-los para a API.
 Essa tela simula uma solicitação de aprovação de transação financeira através de um `POST` no endereço `http://localhost:55787/api/transactions`
