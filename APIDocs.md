@@ -23,6 +23,7 @@ cvv | *string* | cvv do cartão informado. | numéricos de 3 de comprimento | :h
 amount | *int* | Valor (em centavos) da transação solicitada. | numéricos maiores ou igual a 10 (mínimo de 10 centavos) |  :heavy_check_mark:
 installments | *int* | Quantidade de parcelas da transação. | numéricos de 1 até 12 (somente obrigatórios para transaction_type = `credito_parcelado` | 
 password | *string* | Senha do cartão informado. | numéricos de 4 até 6 de comprimento (somente obrigatório se o cartão informado exigir senha) |
+show_errors | *int* | Solicita descrição dos erros | numérico (0 ou 1) | 0 - não descreve erros, 1 - descreve erros
 
 #### a)Objeto Requisição de Transação
 Ao criar uma transação, este é o objeto que você recebe como resposta do processo de efetivação da transação, bem como o link para a transação criada.
@@ -41,6 +42,10 @@ creation_timestamp | *timestamp* | Data e hora da criação da transação |
 status_code | *string* | Código de status da transação | `paid`, `refused`
 status_reason | *string* | Razão do código de status |
 transaction_log_id | *int* | Número identificador da requisição da transação. | 
+**errors** | *objeto* | Contém cada erro encontrado durante a valiação |
+**errors**/error_code | *int* | Código do erro encontrado |
+**errors**/error_message | *string* | Descrição do erro |
+
 
 
 ### 2.Retornando transações
