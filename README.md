@@ -1,4 +1,4 @@
-# Lascarizador
+![Capa](/images/Lascarizador_Capa.jpg)
 
 Projeto para atender ao enunciado proposto pela Stone Pagamentos.
 Esse produto foi patrocinado por:
