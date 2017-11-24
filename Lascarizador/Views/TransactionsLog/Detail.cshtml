@@ -1,0 +1,64 @@
+﻿@model Lascarizador.ViewModels.TransactionLogViewModel
+@{ ViewBag.Title = "Detalhe do Log de Transações"; }
+
+<h2>@ViewBag.Title</h2>
+@{
+    var statusCodeClass = "";
+    var statusReasonClass = "";
+    <!-- btn btn-primary btn-xs
+    if (Model.TransactionLog.Status_code == "aprovada") { statusCodeClass = "text-success"; } else { statusCodeClass = "text-danger"; };
+    if (Model.TransactionLog.Status_reason == "sucesso") { statusReasonClass = "text-success"; } else { statusReasonClass = "text-danger"; };
+    -->
+    if (Model.TransactionLog.Status_code == "aprovada") { statusCodeClass = "label label-success"; } else { statusCodeClass = "label label-danger"; };
+    if (Model.TransactionLog.Status_reason == "sucesso") { statusReasonClass = "label label-success"; } else { statusReasonClass = "label label-danger"; };
+}
+
+<h3><b>Req#@Model.TransactionLog.Id</b></h3>
+
+<div class="container">
+    <div class="col-md-6">
+        <ul class="list-group ">
+            <li class="list-group-item"><b>Criação:</b> @Model.TransactionLog.Creation_timestamp</li>
+            @if (Model.TransactionLog.Status_code == "aprovada")
+            {
+                <li class="list-group-item"><b>Status Code:</b> <span class="label label-success">@Model.TransactionLog.Status_code</span></li>
+            }
+            else
+            {
+                <li class="list-group-item"><b>Status Code:</b> <span class="label label-danger">@Model.TransactionLog.Status_code</span></li>
+            }
+            @if (Model.TransactionLog.Status_reason == "sucesso")
+            {
+                <li class="list-group-item"><b>Status Reason:</b> <span class="label label-success">@Model.TransactionLog.Status_reason</span></li>
+            }
+            else
+            {
+                <li class="list-group-item"><b>Status Reason:</b> <span class="label label-danger">@Model.TransactionLog.Status_reason</span></li>
+            }
+
+            <li class="list-group-item"><b>Tipo de Transação:</b> @Model.TransactionLog.Transaction_type</li>
+            <li class="list-group-item"><b>Bandeira:</b> @Model.TransactionLog.Card_brand</li>
+            <li class="list-group-item"><b>Primeiros Números do Cartão:</b> @Model.TransactionLog.Card_number_first</li>
+            <li class="list-group-item"><b>Últimos Números do Cartão:</b> @Model.TransactionLog.Card_number_last</li>
+            <li class="list-group-item"><b>Nome do Portador do Cartão:</b> @Model.TransactionLog.Card_holder_name</li>
+            <li class="list-group-item"><b>Valor(em centavos):</b> @Model.TransactionLog.Amount</li>
+            <li class="list-group-item"><b>Parcelas:</b> @Model.TransactionLog.Installments</li>
+        </ul>
+    </div>
+    <div class="col-md-6"></div>
+</div>
+
+<h3 class="card-title"><b>Erros:</b></h3>
+<div class="container">
+    <div class="col-md-6">
+        <ul class="list-group">
+            @foreach (var e in Model.ErrorsLog)
+            {
+                <li class="list-group-item"><b>@e.Error_code</b> - @e.Error_message</li>
+            }
+        </ul>
+    </div>
+</div> <!-- Container -->
+<hr />
+
+

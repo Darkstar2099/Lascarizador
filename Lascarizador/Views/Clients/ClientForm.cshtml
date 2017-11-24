@@ -1,0 +1,55 @@
+﻿@model Lascarizador.ViewModels.ClientEditViewModel
+@{
+    if (Model.Client.Id == 0)
+    {
+        ViewBag.Title = "Novo Cliente";
+    } else {
+        ViewBag.Title = "Edição de Cliente";
+    }
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Save", "Clients"))
+{
+    @Html.ValidationSummary(true, "Por favor corrija os seguintes problemas:")
+    <div class="row">
+        <div class="form-group col-md-2">
+            @Html.LabelFor(m => m.Client.CPF)
+            @if (Model.Client.Id == 0)
+            {
+                @Html.TextBoxFor(m => m.Client.CPF, new { @class = "form-control" })
+            }
+            else
+            {
+                @Html.TextBoxFor(m => m.Client.CPF, new { @class = "form-control", @readonly = "true" }) }
+            @Html.ValidationMessageFor(m => m.Client.CPF)
+        </div>
+        <div class="form-group col-md-4">
+            @Html.LabelFor(m => m.Client.Name)
+            @Html.TextBoxFor(m => m.Client.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Client.Name)
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2">
+            @Html.LabelFor(m => m.CreditLimit)
+            @Html.EditorFor(m => m.CreditLimit, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.CreditLimit)
+        </div>
+        <div class="form-group col-md-4">
+            @Html.LabelFor(m => m.Client.Email)
+            @Html.TextBoxFor(m => m.Client.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Client.Email)
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.Client.Id)
+    //@Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Salvar Cliente</button>
+    <hr />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

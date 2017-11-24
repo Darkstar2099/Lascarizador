@@ -1,43 +1,79 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Autorizador de Lascas">
+    <meta name="author" content="Denys Ribeiro Martinho">
+    <link rel="icon" href="../favicon.ico">
+
+    <title>@ViewBag.Title - Lascarizador &copy;</title>
+
+    <!-- Sandstone Theme CSS -->
+    <link href="https://bootswatch.com/3/sandstone/bootstrap.css" rel="stylesheet">
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+        <div class="container-fluid">
+
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Lascarizador", "Index", "Home", "", new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Sobre", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Clientes", "Index", "Clients")</li>
+                    <li>@Html.ActionLink("Nova Transação", "New", "Transactions")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="dropdown01" href="#" data-toggle="dropdown" role="button" aria-expanded="false">API</a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown01">
+                            <li>@Html.ActionLink("Log Requisições", "Index", "TransactionsLog")</li>
+                            <li>@Html.ActionLink("Envia Transação", "NewApi", "Transactions")</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        @Html.ActionLink("Sobre", "About", "Home")
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Contato", "Contact", "Home")
+                    </li>
+                </ul>
+
+            </div>
+
+        </div> <!-- Containeir Fluid -->
+
+    </nav>
+
+    <main role="main">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>&copy; @DateTime.Now.Year - Lascarizador (c) Stone Pagamentos</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

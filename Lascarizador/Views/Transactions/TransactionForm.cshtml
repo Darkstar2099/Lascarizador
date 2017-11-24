@@ -1,0 +1,81 @@
+﻿@model Lascarizador.ViewModels.TransactionEditViewModel
+@{ ViewBag.Title = "Nova Transação"; }
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("Save", "Transactions"))
+{
+    @Html.ValidationSummary(true, "Por favor corrija os seguintes problemas:")
+
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-lg-6">
+                @Html.LabelFor(t => t.TransactionTypeApiName, new { @for = "transactionType" })
+                @Html.DropDownListFor(t => t.TransactionTypeApiName, new SelectList(Model.TransactionTypes, "ApiName", "Type"), "", new { @class = "form-control form-control-lg", @id = "transactionType" })
+                @Html.ValidationMessageFor(t => t.TransactionTypeApiName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-2">
+                @Html.LabelFor(t => t.CardBrandApiName, new { @for = "cardBrand" })
+                @Html.DropDownListFor(t => t.CardBrandApiName, new SelectList(Model.CardBrands, "ApiName", "Name"), "", new { @class = "form-control form-control-lg", @id = "cardBrand" })
+                @Html.ValidationMessageFor(t => t.CardBrandApiName)
+            </div>
+            <div class="form-group col-lg-4">
+                @Html.LabelFor(t => t.Number, new { @for = "cardNumber" })
+                @Html.TextBoxFor(t => t.Number, new { @class = "form-control", @id = "cardNumber" })
+                @Html.ValidationMessageFor(t => t.Number)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-6">
+                @Html.LabelFor(t => t.CardHolderName, new { @for = "cardHolderName" })
+                @Html.TextBoxFor(t => t.CardHolderName, new { @class = "form-control", @id = "cardHolderName" })
+                @Html.ValidationMessageFor(t => t.CardHolderName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-2">
+                @Html.LabelFor(t => t.ExpirationMonth, new { @for = "expirationMonth" })
+                @Html.DropDownListFor(t => t.ExpirationMonth, new SelectList(Enumerable.Range(1, 12)), new { @class = "form-control form-control-lg", @id = "expirationMonth" })
+                @Html.ValidationMessageFor(t => t.ExpirationMonth)
+            </div>
+            <div class="form-group col-lg-2">
+                @Html.LabelFor(t => t.ExpirationYear, new { @for = "expirationYear" })
+                @Html.DropDownListFor(t => t.ExpirationYear, new SelectList(Enumerable.Range(2017, 2100)), new { @class = "form-control form-control-lg", @id = "expirationYear" })
+                @Html.ValidationMessageFor(t => t.ExpirationYear)
+            </div>
+            <div class="form-group col-lg-2">
+                @Html.LabelFor(t => t.Cvv, new { @for = "cvv" })
+                @Html.TextBoxFor(t => t.Cvv, new { @class = "form-control", @id = "cvv" })
+                @Html.ValidationMessageFor(t => t.Cvv)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                @Html.LabelFor(t => t.Amount, new { @for = "amount" })
+                @Html.EditorFor(t => t.Amount, new { htmlAttributes = new { @class = "form-control", @id = "amount", @value = "10,00" } })
+                @Html.ValidationMessageFor(t => t.Amount)
+            </div>
+            <div class="form-group col-md-2">
+                @Html.LabelFor(t => t.Installments, new { @for = "installments" })
+                @Html.TextBoxFor(t => t.Installments, new { @class = "form-control", @id = "installments" })
+                @Html.ValidationMessageFor(t => t.Installments)
+            </div>
+            <div class="form-group col-md-2">
+                @Html.LabelFor(t => t.Password, new { @for = "password" })
+                @Html.PasswordFor(t => t.Password, new { @class = "form-control", @id = "password" })
+                @Html.ValidationMessageFor(t => t.Password)
+            </div>
+        </div>
+
+    </div>
+    @Html.HiddenFor(t => t.Id)
+    //    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Enviar Transação</button>
+}
+<hr />
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

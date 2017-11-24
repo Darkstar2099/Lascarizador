@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Lascarizador.Core.Models.Client>
+@{ ViewBag.Title = "Lista de Clientes"; }
+
+<h2>@ViewBag.Title</h2>
+<p>
+    @Html.ActionLink("Novo Cliente", "New", "Clients", null, new { @class = "btn btn-primary" })
+</p>
+
+<table id="clients" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Limite de Crédito</th>
+            <th>E-Mail</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model) {
+            <tr>
+                <td>@Html.ActionLink(client.Name, "Edit", "Clients", new { clientId = client.Id }, null)</td>
+                <td>@client.CPF</td>
+                <td>@String.Format("{0:c}", client.CreditLimit)</td>
+                <td>@client.Email</td>
+                <td>@Html.ActionLink("ver cartões", "Index", "Cards", new { clientId = client.Id }, null)</td>
+                <td>
+                    @* @Html.ActionLink("remover", "Delete", "Clients", new { clientId = client.Id }, null) *@
+                    <button class="btn-link js-delete" data-client-id="@client.Id">remover</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#clients").DataTable({
+                "oLanguage": {
+                    "sProcessing": "Aguarde enquanto os dados são carregados ...",
+                    "sLengthMenu": "Mostrar _MENU_ registros por pagina",
+                    "sZeroRecords": "Nenhum registro correspondente ao critério encontrado",
+                    "sInfoEmtpy": "Exibindo 0 a 0 de 0 registros",
+                    "sInfo": "Exibindo de _START_ a _END_ de _TOTAL_ registros",
+                    "sInfoFiltered": "",
+                    "sSearch": "Procurar",
+                    "oPaginate": {
+                        "sFirst": "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext": "Próximo",
+                        "sLast": "Último"
+                    }
+                }
+            });
+        });
+
+        $("#clients").on("click", ".js-delete", function (event) {
+            event.preventDefault();
+            var button = $(this);
+            var client_id = button.attr('data-client-id');
+
+            bootbox.confirm("Tem certeza que quer apagar esse cliente?", function (result) {
+                if (result) {
+                    var url = "/Clients/Delete?clientId=" + client_id;
+                    window.location.replace(url);
+                }
+            });
+        });
+
+    </script>
+}
+

@@ -1,0 +1,125 @@
+﻿@model Lascarizador.ViewModels.TransactionEditViewModel
+@{ ViewBag.Title = "Envia Transação"; }
+
+<h2>@ViewBag.Title</h2>
+<form id="Transaction" class="form-group">
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <label for="transactionType">Tipo de Transação</label>
+                <input id="transactionType" type="text" class="form-control mb-2 mb-sm-0" placeholder="ex.: credito">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-2">
+                <label for="cardBrand">Bandeira do Cartão</label>
+                <input id="cardBrand" type="text" value="" class="form-control" placeholder="ex.: bedrock_visa">
+            </div>
+            <div class="form-group col-lg-4">
+                <label for="cardNumber">Número do Cartão</label>
+                <input id="cardNumber" type="text" value="" class="form-control" placeholder="ex.: 1111222233334444">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <label for="cardHolderName">Nome do Portador do Cartão</label>
+                <input id="cardHolderName" type="text" value="" class="form-control" placeholder="ex.: FULANO DE TAL">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-2">
+                <label for="expirationMonth">Mês Expiração</label>
+                <input id="expirationMonth" type="number" value="0" class="form-control" placeholder="ex.: 11">
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="expirationYear">Ano Expiração</label>
+                <input id="expirationYear" type="number" value="0" class="form-control" placeholder="ex.: 2018">
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="cvv">cvv</label>
+                <input id="cvv" type="text" value="" class="form-control" placeholder="ex.: 111">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-2">
+                <label for="amount">Valor</label>
+                <input id="amount" type="number" value="0" class="form-control" placeholder="ex.: 12000,00">
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="installments">Parcelas</label>
+                <input id="installments" type="number" value="0" class="form-control" placeholder="ex.: 12">
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="password">Senha</label>
+                <input id="password" type="text" value="" class="form-control" placeholder="ex.: 123456">
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar Transação</button>
+
+</form>
+<hr />
+
+@section scripts
+{
+    <script>
+        $("#Transaction").submit(function (e) {
+            e.preventDefault();
+
+            vm = {};
+
+            //Trata valores nulos passados quando são esperados inteiros
+            expirationMonthVal = $('#expirationMonth').val();
+            expirationYearVal = $('#expirationYear').val();
+            amountVal = $('#amount').val();
+            installmentsVal = $('#installments').val();
+
+            if (expirationMonthVal == "")
+                expirationMonthVal = 0;           
+            if (expirationYearVal == "")
+                expirationYearVal = 0;           
+            if (amountVal == "")
+                amountVal = 0;           
+            if (installmentsVal == "")
+                installmentsVal = 0;           
+
+            vm.transaction_type = $('#transactionType').val();
+            vm.card_brand = $('#cardBrand').val();
+            vm.card_number = $('#cardNumber').val();
+            vm.card_holder_name = $('#cardHolderName').val();
+            eMonth = $('#expirationMonth').val();
+            vm.expiration_month = expirationMonthVal;
+            vm.expiration_year = expirationYearVal;
+            vm.cvv = $('#cvv').val();
+            vm.amount = amountVal;
+            vm.installments = installmentsVal;
+            vm.password = $('#password').val();
+            vm.show_errors = true;
+
+            $.post(
+                "/api/transactions",
+                vm, function (response, status) {
+                    if (status == "success") {
+                        // pegando os dados jSON
+                        var obj = response;
+                        if (obj.transaction_log_id != 0) {
+                            var url = "/TransactionsLog/Detail?transactionlogId=" + obj.transaction_log_id;
+                            window.location.replace(url);
+                        } else {
+                            bootbox.alert("Status=success mas 500 - Erro Interno do Servidor?");
+                        }
+                    } else {
+                        if (obj.transaction_log_id != 0) {
+                            var url = "/TransactionsLog/Detail?transactionlogId=" + obj.transaction_log_id;
+                            window.location.replace(url);
+                        } else {
+                            bootbox.alert("Status<>success e 500 - Erro Interno do Servidor?");
+                        }
+                    }
+                }
+            )
+        });
+
+    </script>
+}

@@ -1,0 +1,58 @@
+﻿@model Lascarizador.ViewModels.TransactionViewModel
+@{ ViewBag.Title = "Lista de Transações"; }
+
+<h3><b>Cliente:</b> @Model.Client.Name</h3>
+<h3><b>Cartão:</b> (@Model.Card.CardBrand.Name) @Model.Card.Number</h3>
+<h2>@ViewBag.Title</h2>
+
+<table id="transactions" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Data/Hora</th>
+            <th>Tipo de Transação</th>
+            <th>Valor</th>
+            <th>Parcelas</th>
+            <th>Requisição</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.Transactions)
+    {
+            <tr>
+                <td>@transaction.CreationTimestamp</td>
+                <td>@transaction.TransactionType.Type</td>
+                <td>@String.Format("{0:c}", transaction.Amount)</td>
+                <td>@transaction.Installments</td>
+                <td>@Html.ActionLink("ver requisição #" + transaction.TransactionLogId, "Detail", "TransactionsLog", new { transactionLogId = transaction.TransactionLogId }, null)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#transactions").DataTable({
+                fixedColumns: true,
+                "order": [[0, "desc"]],
+                "oLanguage": {
+                    "sProcessing": "Aguarde enquanto os dados são carregados ...",
+                    "sLengthMenu": "Mostrar _MENU_ registros por pagina",
+                    "sZeroRecords": "Nenhum registro correspondente ao critério foi encontrado",
+                    "sInfoEmtpy": "Exibindo 0 a 0 de 0 registros",
+                    "sInfo": "Exibindo de _START_ a _END_ de _TOTAL_ registros",
+                    "sInfoFiltered": "",
+                    "sSearch": "Procurar",
+                    "oPaginate": {
+                        "sFirst": "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext": "Próximo",
+                        "sLast": "Último"
+                    }
+                }
+            });
+        });
+    </script>
+}

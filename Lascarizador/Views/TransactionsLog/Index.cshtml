@@ -1,0 +1,76 @@
+﻿@{ ViewBag.Title = "Log de Requisições (API)"; }
+<h2>@ViewBag.Title</h2>
+
+<table id="transactionslog" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Req#</th>
+            <th>Timestamp</th>
+            <th>Status Code</th>
+            <th>Status Reason</th>
+            <th>Tipo</th>
+            <th>Bandeira</th>
+            <th>Início do Núm.</th>
+            <th>Fim do Núm.</th>
+            <!--            <th>Nome do Portador</th> -->
+            <th>Valor</th>
+            <!--            <th>Parcelas</th> -->
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<hr />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function ()
+        {
+            $("#transactionslog").DataTable({
+                "order": [[1, "desc"]],
+                "oLanguage": {
+                    "sProcessing": "Aguarde enquanto os dados são carregados ...",
+                    "sLengthMenu": "Mostrar _MENU_ registros por pagina",
+                    "sZeroRecords": "Nenhum registro correspondente ao critério foi encontrado",
+                    "sInfoEmtpy": "Exibindo 0 a 0 de 0 registros",
+                    "sInfo": "Exibindo de _START_ a _END_ de _TOTAL_ registros",
+                    "sInfoFiltered": "",
+                    "sSearch": "Procurar",
+                    "oPaginate": {
+                        "sFirst": "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext": "Próximo",
+                        "sLast": "Último"
+                    }
+                },
+                sAjaxDataProp: "",
+                ajax:
+                {
+                    url: "/api/transactionslog",
+                    dataType: "json",
+                    dataScr: ""
+                },
+                columns:
+                [
+                    {
+                        data: "transaction_id",
+                        render: function (data, type, id) {
+                            return "<a href='/TransactionsLog/Detail?transactionLogId=" + data + "'>" + data + "</a>";
+                        }
+                    },
+                    { data: "creation_timestamp" },
+                    { data: "status_code" },
+                    { data: "status_reason" },
+                    { data: "transaction_type" },
+                    { data: "card_brand"},
+                    { data: "card_number_first" },
+                    { data: "card_number_last" },
+@*                    { data: "card_holder_name" }, *@
+                    { data: "amount" }
+@*                    { data: "installments" }  *@
+                ]
+            }
+            );
+        });
+    </script>
+}

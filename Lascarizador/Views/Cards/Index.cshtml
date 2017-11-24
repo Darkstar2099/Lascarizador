@@ -1,0 +1,95 @@
+﻿@model Lascarizador.ViewModels.CardViewModel
+@{ ViewBag.Title = "Lista de Cartões"; }
+
+<h3><b>Cliente:</b> @Model.Client.Name</h3>
+<h2>@ViewBag.Title</h2>
+<p>
+    @Html.ActionLink("Novo Cartão", "New", "Cards", new { clientId = Model.Client.Id }, new { @class = "btn btn-primary" })
+</p>
+
+<table id="cards" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Bandeira</th>
+            <th>Nome do Portador do Cartão</th>
+            <th>Número</th>
+            <th>cvv</th>
+            <th>Expiração</th>
+            <th>Tipo</th>
+            <th>Bloqueado</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var card in Model.Cards)
+        {
+            <tr>
+                <td>@card.CardBrand.Name</td>
+                <td>@card.CardHolderName</td>
+                <td>@Html.ActionLink(card.Number, "Edit", "Cards", new { cardId = card.Id }, null)</td>
+                <td>@card.Cvv</td>
+                <td>@String.Format("{0:MMM yyyy}", card.ExpirationDate)</td>
+                <td>@card.CardType.Name</td>
+                @{ 
+                    string descBlocked = "Não";
+                    if (card.IsBlocked)
+                    {
+                        descBlocked = "Sim";
+                    }
+                }
+                <td>@descBlocked</td>
+                <td>@Html.ActionLink("ver transações", "Index", "Transactions", new { cardId = card.Id }, null)</td>
+                <td>
+                    @* @Html.ActionLink("remover", "Delete", "Cards", new { cardId = card.Id }, null) *@
+                    <button class="btn-link js-delete" data-card-id="@card.Id">remover</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#cards").DataTable({
+                "oLanguage": {
+                    "sProcessing": "Aguarde enquanto os dados são carregados ...",
+                    "sLengthMenu": "Mostrar _MENU_ registros por pagina",
+                    "sZeroRecords": "Nenhum registro correspondente ao critério encontrado",
+                    "sInfoEmtpy": "Exibindo 0 a 0 de 0 registros",
+                    "sInfo": "Exibindo de _START_ a _END_ de _TOTAL_ registros",
+                    "sInfoFiltered": "",
+                    "sSearch": "Procurar",
+                    "oPaginate": {
+                        "sFirst": "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext": "Próximo",
+                        "sLast": "Último"
+                    }
+                }
+            });
+        });
+
+        $("#cards").on("click", ".js-delete", function (event) {
+            event.preventDefault();
+            var button = $(this);
+            var card_id = button.attr('data-card-id');
+
+            bootbox.confirm("Tem certeza que quer apagar esse cartão?", function (result) {
+                if (result) {
+                    var url = "/Cards/Delete?cardId=" + card_id;
+                    window.location.replace(url);                 
+                }
+            });
+        });
+
+    </script>
+}
+
+
+
+
+
